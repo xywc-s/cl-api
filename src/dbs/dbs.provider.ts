@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const uri = 'mongodb://etfun:Vzgc7tJ3@129.28.160.9:27017/mercador'
+const uri = 'mongodb://etfun:Vzgc7tJ3@localhost:27017/mercador'
 
 const options = {
   useUnifiedTopology: true,
