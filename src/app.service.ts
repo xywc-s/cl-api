@@ -55,7 +55,7 @@ export class AppService {
         $group: {
           _id: '$pid',
           img: {
-            $first: '$img'
+            $push: '$img'
           },
           src: {
             $first: '$src'
@@ -72,6 +72,24 @@ export class AppService {
           end_sale: {
             $last: '$sales'
           },
+          trend: {
+            $push: '$sales'
+          }
+        }
+      },
+      {
+        $set:{
+          img: {
+            $filter: {
+              input: '$img',
+              cond: {
+                $regexFind: {
+                  input: '$$this',
+                  regex: /^http/
+                } 
+              }
+            }
+          }
         }
       }
     ]).toArray()
