@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -18,5 +18,15 @@ export class AppController {
   @Get('/static')
   allStatic(): any{
     return this.service.getStatics()
+  }
+
+  @Get('/job')
+  allJobs(): any{
+    return this.service.getJobs()
+  }
+
+  @Post('/job')
+  saveJob(@Body() params): any{
+    return this.service.saveJob(params)
   }
 }

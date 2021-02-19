@@ -112,4 +112,25 @@ export class AppService {
       data
     }
   }
+
+  async getJobs(): Promise<any>{
+    const jobs = await this.db.collection('jobs').find({}).toArray()
+    return {
+      code: 200,
+      data: jobs
+    }
+  }
+
+  async saveJob(params: any): Promise<any>{
+    let job = Object.assign({}, params)
+    job.status = 0
+    job.progress = 0
+    job.created_at = new Date().valueOf()
+    await this.db.collection('jobs').insertOne(job)
+    return {
+      code: 200,
+      message: '添加成功',
+      data: [job]
+    }
+  }
 }
