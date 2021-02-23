@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Db } from 'mongodb';
+import { Db, ObjectId } from 'mongodb';
+import Service from 'src/base/service';
 @Injectable()
-export class AppService {
+export class AppService extends Service {
   @Inject('db')
   private db:Db
 
@@ -131,6 +132,30 @@ export class AppService {
       code: 200,
       message: '添加成功',
       data: [job]
+    }
+  }
+
+  async deleteJob(id: string): Promise<any>{
+    try {
+      let job = await this.db.collection('jobs').findOneAndDelete({_id: new ObjectId(id)})
+      return this.successResponse('删除成功！')
+    } catch (error) {
+      return this.errorResponse(error)
+    }
+  }
+
+  async updateJob(params: any): Promise<any>{
+    try {
+      let job = await this.db.collection('jobs').findOne({_id: new ObjectId(params._id)})
+      console.log(job);
+      job.progress++
+      if(job.progress === job.cycle) job.status = 2;
+      else job.status = 1
+      console.log(job);
+      await this.db.collection('jobs').findOneAndReplace({_id: new ObjectId(params._id)}, job)
+      return this.successResponse('更新成功！')
+    } catch (error) {
+      return this.errorResponse(error)
     }
   }
 }

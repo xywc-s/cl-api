@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -28,5 +28,15 @@ export class AppController {
   @Post('/job')
   saveJob(@Body() params): any{
     return this.service.saveJob(params)
+  }
+
+  @Delete('/job')
+  deleteJob(@Query('id') id):any{
+    return this.service.deleteJob(id)
+  }
+
+  @Put('/job')
+  updateJob(@Body() params):any{
+    return this.service.updateJob(params)
   }
 }
