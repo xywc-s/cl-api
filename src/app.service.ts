@@ -115,7 +115,7 @@ export class AppService extends Service {
   }
 
   async getJobs(): Promise<any>{
-    const jobs = await this.db.collection('jobs').find({}).toArray()
+    const jobs = await this.db.collection('jobs').find({}).sort('created_at', -1).toArray()
     return {
       code: 200,
       data: jobs
